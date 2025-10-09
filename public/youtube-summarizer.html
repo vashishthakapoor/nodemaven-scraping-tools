@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Transcript Summariser - Nodemaven Tools</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .pulse-animation {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: .5; }
+        }
+        .streaming-text {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        .tab-button.active {
+            color: #9333ea;
+            border-bottom-color: #9333ea;
+        }
+        .tab-button:not(.active) {
+            color: #9ca3af;
+        }
+        .input-section {
+            display: block;
+        }
+        .input-section.hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Navigation Placeholder -->
+    <div id="nav-placeholder"></div>
+
+    <div class="container mx-auto px-4 py-8 max-w-4xl">
+        <!-- Header -->
+        <div class="gradient-bg rounded-xl shadow-2xl p-8 mb-8 text-white">
+            <div class="flex items-center justify-center mb-4">
+                <i class="fab fa-youtube text-5xl mr-4"></i>
+                <h1 class="text-4xl font-bold">YouTube Transcript Summariser</h1>
+            </div>
+            <p class="text-center text-lg opacity-90">
+                Get AI-powered summaries of YouTube videos instantly with OpenAI GPT-4
+            </p>
+        </div>
+
+        <!-- Input Form -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-6">
+            <!-- Tab Selector -->
+            <div class="flex gap-2 mb-6 border-b border-gray-200">
+                <button 
+                    id="urlTab" 
+                    class="tab-button flex-1 py-3 px-4 font-semibold text-purple-600 border-b-2 border-purple-600 transition"
+                >
+                    <i class="fab fa-youtube mr-2"></i>YouTube URL
+                </button>
+                <button 
+                    id="transcriptTab" 
+                    class="tab-button flex-1 py-3 px-4 font-semibold text-gray-500 border-b-2 border-transparent hover:text-purple-600 transition"
+                >
+                    <i class="fas fa-align-left mr-2"></i>Paste Transcript
+                </button>
+            </div>
+
+            <!-- URL Input -->
+            <div id="urlInput" class="input-section">
+                <div class="mb-4">
+                    <label for="youtubeUrl" class="block text-gray-700 font-semibold mb-2">
+                        <i class="fab fa-youtube text-red-600 mr-2"></i>YouTube Video URL
+                    </label>
+                    <input 
+                        type="text" 
+                        id="youtubeUrl" 
+                        placeholder="https://www.youtube.com/watch?v=..." 
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                    >
+                </div>
+                <button 
+                    id="summarizeUrlBtn" 
+                    class="w-full gradient-bg text-white font-semibold py-3 px-6 rounded-lg hover:opacity-90 transition duration-300 flex items-center justify-center"
+                >
+                    <i class="fas fa-magic mr-2"></i>
+                    Summarize Video
+                </button>
+            </div>
+
+            <!-- Transcript Input -->
+            <div id="transcriptInput" class="input-section hidden">
+                <div class="mb-4">
+                    <label for="pastedTranscript" class="block text-gray-700 font-semibold mb-2">
+                        <i class="fas fa-align-left text-purple-600 mr-2"></i>Paste Transcript Text
+                    </label>
+                    <textarea 
+                        id="pastedTranscript" 
+                        rows="8"
+                        placeholder="Paste your transcript here..."
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-y"
+                    ></textarea>
+                    <p class="text-sm text-gray-500 mt-2">
+                        <i class="fas fa-info-circle mr-1"></i>
+                        Paste any transcript text you want to summarize
+                    </p>
+                </div>
+                <button 
+                    id="summarizeTranscriptBtn" 
+                    class="w-full gradient-bg text-white font-semibold py-3 px-6 rounded-lg hover:opacity-90 transition duration-300 flex items-center justify-center"
+                >
+                    <i class="fas fa-magic mr-2"></i>
+                    Summarize Transcript
+                </button>
+            </div>
+        </div>
+
+        <!-- Loading State -->
+        <div id="loadingState" class="hidden bg-white rounded-xl shadow-lg p-8 mb-6">
+            <div class="flex flex-col items-center justify-center">
+                <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-purple-600 mb-4"></div>
+                <p class="text-gray-600 text-lg font-semibold pulse-animation">
+                    Fetching transcript and generating summary...
+                </p>
+                <p class="text-gray-500 text-sm mt-2">This may take a moment</p>
+            </div>
+        </div>
+
+        <!-- Error State -->
+        <div id="errorState" class="hidden bg-red-50 border-l-4 border-red-500 rounded-lg p-6 mb-6">
+            <div class="flex items-start">
+                <i class="fas fa-exclamation-circle text-red-500 text-2xl mr-3 mt-1"></i>
+                <div>
+                    <h3 class="text-red-800 font-semibold text-lg mb-2">Error</h3>
+                    <p id="errorMessage" class="text-red-700"></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results -->
+        <div id="resultsContainer" class="hidden">
+            <!-- Video Info Card -->
+            <div id="videoInfoCard" class="bg-white rounded-xl shadow-lg p-6 mb-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">
+                    <i class="fas fa-video text-purple-600 mr-2"></i>Video Information
+                </h2>
+                <div class="space-y-3">
+                    <div class="flex items-start">
+                        <i class="fas fa-heading text-purple-600 mr-3 mt-1"></i>
+                        <div>
+                            <span class="font-semibold text-gray-700">Title:</span>
+                            <p id="videoTitle" class="text-gray-600 mt-1"></p>
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-user text-purple-600 mr-3"></i>
+                        <span class="font-semibold text-gray-700 mr-2">Channel:</span>
+                        <span id="videoChannel" class="text-gray-600"></span>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-clock text-purple-600 mr-3"></i>
+                        <span class="font-semibold text-gray-700 mr-2">Duration:</span>
+                        <span id="videoDuration" class="text-gray-600"></span>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-file-word text-purple-600 mr-3"></i>
+                        <span class="font-semibold text-gray-700 mr-2">Word Count:</span>
+                        <span id="wordCount" class="text-gray-600"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI Summary Card -->
+            <div class="bg-gradient-to-br from-purple-50 to-indigo-50 rounded-xl shadow-lg p-6 mb-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">
+                    <i class="fas fa-robot text-purple-600 mr-2"></i>AI Summary (GPT-4)
+                </h2>
+                <div id="summaryContent" class="bg-white rounded-lg p-6 streaming-text text-gray-700 leading-relaxed">
+                    <!-- Summary will be streamed here -->
+                </div>
+                <div class="mt-4 flex gap-3">
+                    <button 
+                        id="copySummaryBtn" 
+                        class="flex-1 bg-purple-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-purple-700 transition duration-300 flex items-center justify-center"
+                    >
+                        <i class="fas fa-copy mr-2"></i>
+                        Copy Summary
+                    </button>
+                    <button 
+                        id="downloadSummaryBtn" 
+                        class="flex-1 bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-indigo-700 transition duration-300 flex items-center justify-center"
+                    >
+                        <i class="fas fa-download mr-2"></i>
+                        Download Summary
+                    </button>
+                </div>
+            </div>
+
+            <!-- Full Transcript Card -->
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">
+                    <i class="fas fa-align-left text-purple-600 mr-2"></i>Full Transcript
+                </h2>
+                <div id="transcriptContent" class="bg-gray-50 rounded-lg p-6 text-gray-700 leading-relaxed max-h-96 overflow-y-auto">
+                    <!-- Transcript will appear here -->
+                </div>
+                <div class="mt-4 flex gap-3">
+                    <button 
+                        id="copyTranscriptBtn" 
+                        class="flex-1 bg-purple-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-purple-700 transition duration-300 flex items-center justify-center"
+                    >
+                        <i class="fas fa-copy mr-2"></i>
+                        Copy Transcript
+                    </button>
+                    <button 
+                        id="downloadTranscriptBtn" 
+                        class="flex-1 bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-indigo-700 transition duration-300 flex items-center justify-center"
+                    >
+                        <i class="fas fa-download mr-2"></i>
+                        Download Transcript
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Load navigation -->
+    <script src="/nav-loader.js"></script>
+
+    <!-- Main Script -->
+    <script>
+        let currentTranscript = '';
+        let currentSummary = '';
+        let currentVideoInfo = {};
+        let activeTab = 'url';
+
+        // Tab switching
+        document.getElementById('urlTab').addEventListener('click', () => {
+            activeTab = 'url';
+            document.getElementById('urlTab').classList.add('active');
+            document.getElementById('transcriptTab').classList.remove('active');
+            document.getElementById('urlInput').classList.remove('hidden');
+            document.getElementById('transcriptInput').classList.add('hidden');
+            hideError();
+            hideResults();
+        });
+
+        document.getElementById('transcriptTab').addEventListener('click', () => {
+            activeTab = 'transcript';
+            document.getElementById('transcriptTab').classList.add('active');
+            document.getElementById('urlTab').classList.remove('active');
+            document.getElementById('transcriptInput').classList.remove('hidden');
+            document.getElementById('urlInput').classList.add('hidden');
+            hideError();
+            hideResults();
+        });
+
+        // Set default active tab
+        document.getElementById('urlTab').classList.add('active');
+
+        // URL-based summarization
+        document.getElementById('summarizeUrlBtn').addEventListener('click', async () => {
+            const url = document.getElementById('youtubeUrl').value.trim();
+            
+            if (!url) {
+                showError('Please enter a YouTube URL');
+                return;
+            }
+
+            // Validate YouTube URL
+            const youtubeRegex = /^(https?:\/\/)?(www\.)?(youtube\.com\/watch\?v=|youtu\.be\/)[\w-]+/;
+            if (!youtubeRegex.test(url)) {
+                showError('Please enter a valid YouTube URL');
+                return;
+            }
+
+            await summarizeFromUrl(url);
+        });
+
+        // Transcript-based summarization
+        document.getElementById('summarizeTranscriptBtn').addEventListener('click', async () => {
+            const transcript = document.getElementById('pastedTranscript').value.trim();
+            
+            if (!transcript) {
+                showError('Please paste a transcript to summarize');
+                return;
+            }
+
+            if (transcript.length < 50) {
+                showError('Transcript is too short. Please provide a longer text.');
+                return;
+            }
+
+            await summarizeFromTranscript(transcript);
+        });
+
+        async function summarizeFromUrl(url) {
+            // Reset states
+            hideError();
+            hideResults();
+            showLoading();
+            currentSummary = '';
+
+            try {
+                // Use Server-Sent Events for streaming
+                const response = await fetch('/youtube/summarize', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ url })
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || 'Failed to process video');
+                }
+
+                await handleStreamingResponse(response, true);
+
+            } catch (error) {
+                console.error('Error:', error);
+                hideLoading();
+                showError(error.message);
+            }
+        }
+
+        async function summarizeFromTranscript(transcript) {
+            // Reset states
+            hideError();
+            hideResults();
+            showLoading();
+            currentSummary = '';
+
+            try {
+                // Use direct transcript summarization endpoint
+                const response = await fetch('/youtube/summarize-text', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ transcript })
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || 'Failed to summarize transcript');
+                }
+
+                await handleStreamingResponse(response, false);
+
+            } catch (error) {
+                console.error('Error:', error);
+                hideLoading();
+                showError(error.message);
+            }
+        }
+
+        async function handleStreamingResponse(response, hasVideoInfo) {
+            const reader = response.body.getReader();
+            const decoder = new TextDecoder();
+            let buffer = '';
+
+            hideLoading();
+            showResults();
+
+            // Hide video info card if summarizing pasted transcript
+            if (!hasVideoInfo) {
+                document.getElementById('videoInfoCard').style.display = 'none';
+            } else {
+                document.getElementById('videoInfoCard').style.display = 'block';
+            }
+
+            const summaryContent = document.getElementById('summaryContent');
+            summaryContent.innerHTML = '<div class="text-gray-500 italic">Generating summary...</div>';
+
+            while (true) {
+                const { done, value } = await reader.read();
+                if (done) break;
+
+                buffer += decoder.decode(value, { stream: true });
+                const lines = buffer.split('\n');
+                buffer = lines.pop() || '';
+
+                for (const line of lines) {
+                    if (line.startsWith('data: ')) {
+                        const data = line.slice(6);
+                        
+                        if (data === '[DONE]') {
+                            continue;
+                        }
+
+                        try {
+                            const parsed = JSON.parse(data);
+                            
+                            if (parsed.type === 'info') {
+                                // Video information (only for URL-based)
+                                currentVideoInfo = parsed.data;
+                                document.getElementById('videoTitle').textContent = parsed.data.title;
+                                document.getElementById('videoChannel').textContent = parsed.data.channel;
+                                document.getElementById('videoDuration').textContent = parsed.data.duration;
+                                document.getElementById('wordCount').textContent = parsed.data.wordCount.toLocaleString();
+                                
+                                // Set transcript
+                                currentTranscript = parsed.data.transcript;
+                                document.getElementById('transcriptContent').textContent = currentTranscript;
+                                
+                            } else if (parsed.type === 'transcript') {
+                                // For pasted transcript, just show it
+                                currentTranscript = parsed.content;
+                                document.getElementById('transcriptContent').textContent = currentTranscript;
+                                const wordCount = currentTranscript.split(/\s+/).length;
+                                
+                            } else if (parsed.type === 'summary') {
+                                // Stream summary content
+                                if (currentSummary === '') {
+                                    summaryContent.innerHTML = '';
+                                }
+                                currentSummary += parsed.content;
+                                summaryContent.textContent = currentSummary;
+                                
+                            } else if (parsed.type === 'error') {
+                                throw new Error(parsed.message);
+                            }
+                        } catch (e) {
+                            console.error('Error parsing SSE data:', e);
+                        }
+                    }
+                }
+            }
+        }
+
+        // Copy and Download Handlers
+        document.getElementById('copySummaryBtn').addEventListener('click', () => {
+            navigator.clipboard.writeText(currentSummary).then(() => {
+                alert('Summary copied to clipboard!');
+            });
+        });
+
+        document.getElementById('downloadSummaryBtn').addEventListener('click', () => {
+            downloadText(currentSummary, `${sanitizeFilename(currentVideoInfo.title)}_summary.txt`);
+        });
+
+        document.getElementById('copyTranscriptBtn').addEventListener('click', () => {
+            navigator.clipboard.writeText(currentTranscript).then(() => {
+                alert('Transcript copied to clipboard!');
+            });
+        });
+
+        document.getElementById('downloadTranscriptBtn').addEventListener('click', () => {
+            downloadText(currentTranscript, `${sanitizeFilename(currentVideoInfo.title)}_transcript.txt`);
+        });
+
+        // Helper Functions
+        function showLoading() {
+            document.getElementById('loadingState').classList.remove('hidden');
+        }
+
+        function hideLoading() {
+            document.getElementById('loadingState').classList.add('hidden');
+        }
+
+        function showError(message) {
+            document.getElementById('errorMessage').textContent = message;
+            document.getElementById('errorState').classList.remove('hidden');
+        }
+
+        function hideError() {
+            document.getElementById('errorState').classList.add('hidden');
+        }
+
+        function showResults() {
+            document.getElementById('resultsContainer').classList.remove('hidden');
+        }
+
+        function hideResults() {
+            document.getElementById('resultsContainer').classList.add('hidden');
+        }
+
+        function downloadText(text, filename) {
+            const blob = new Blob([text], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        function sanitizeFilename(filename) {
+            return filename.replace(/[^a-z0-9]/gi, '_').substring(0, 50);
+        }
+    </script>
+</body>
+</html>
