@@ -22,7 +22,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT || 22 }}
           script: |
-            cd /var/www/nodemaven-scrape-browser
+            cd /var/www/nodemaven-scraping-tools
             
             # Pull latest changes
             git pull origin main

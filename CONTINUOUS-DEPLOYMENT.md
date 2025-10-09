@@ -33,7 +33,7 @@ SSH into your server and set up the repository:
 ```bash
 ssh root@YOUR_SERVER_IP
 
-cd /var/www/nodemaven-scrape-browser
+cd /var/www/nodemaven-scraping-tools
 
 # Initialize git (if not already)
 git init
@@ -185,7 +185,7 @@ pm2 status
 pm2 logs nodemaven-scraper --lines 50
 
 # Check if latest code is deployed
-cd /var/www/nodemaven-scrape-browser
+cd /var/www/nodemaven-scraping-tools
 git log -1
 ```
 
@@ -216,7 +216,7 @@ Edit `.github/workflows/deploy.yml` to customize:
     username: ${{ secrets.SERVER_USERNAME }}
     key: ${{ secrets.SSH_PRIVATE_KEY }}
     script: |
-      cd /var/www/nodemaven-scrape-browser
+      cd /var/www/nodemaven-scraping-tools
       npm run build
 ```
 
@@ -229,7 +229,7 @@ Edit `.github/workflows/deploy.yml` to customize:
     username: ${{ secrets.SERVER_USERNAME }}
     key: ${{ secrets.SSH_PRIVATE_KEY }}
     script: |
-      cd /var/www/nodemaven-scrape-browser
+      cd /var/www/nodemaven-scraping-tools
       npm test
 ```
 
@@ -257,7 +257,7 @@ deploy:
    On server, edit `/root/.ssh/authorized_keys`:
    ```bash
    # Add restrictions before the key
-   command="cd /var/www/nodemaven-scrape-browser && git pull && npm install && pm2 restart nodemaven-scraper",no-port-forwarding,no-X11-forwarding,no-agent-forwarding ssh-ed25519 AAAA...
+   command="cd /var/www/nodemaven-scraping-tools && git pull && npm install && pm2 restart nodemaven-scraper",no-port-forwarding,no-X11-forwarding,no-agent-forwarding ssh-ed25519 AAAA...
    ```
 
 3. **Use Deploy User**
@@ -283,7 +283,7 @@ deploy:
 ### "Repository not found" on Server
 ```bash
 # SSH to server
-cd /var/www/nodemaven-scrape-browser
+cd /var/www/nodemaven-scraping-tools
 
 # Check remote URL
 git remote -v
@@ -310,7 +310,7 @@ pm2 logs nodemaven-scraper
 ### Git Pull Fails (Merge Conflicts)
 ```bash
 # SSH to server
-cd /var/www/nodemaven-scrape-browser
+cd /var/www/nodemaven-scraping-tools
 
 # Reset to latest remote
 git fetch origin main
@@ -320,7 +320,7 @@ git reset --hard origin/main
 ### Dependencies Not Installing
 ```bash
 # SSH to server
-cd /var/www/nodemaven-scrape-browser
+cd /var/www/nodemaven-scraping-tools
 
 # Clear cache and reinstall
 rm -rf node_modules
@@ -350,7 +350,7 @@ If deployment breaks something:
 # SSH to server
 ssh root@YOUR_SERVER_IP
 
-cd /var/www/nodemaven-scrape-browser
+cd /var/www/nodemaven-scraping-tools
 
 # View recent commits
 git log --oneline -10
