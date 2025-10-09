@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scraping Tools - Web Scraping & Analysis</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
+    <!-- Navigation Header -->
+    <nav class="bg-white shadow-md mb-8">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-between py-4">
+                <!-- Logo/Brand -->
+                <a href="/" class="flex items-center space-x-2 text-xl font-bold text-gray-800 hover:text-indigo-600 transition">
+                    <i class="fas fa-tools text-indigo-600"></i>
+                    <span>Scraping Tools</span>
+                </a>
+
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex items-center space-x-1">
+                    <a href="/" class="px-4 py-2 text-indigo-600 bg-indigo-50 rounded-lg font-semibold">
+                        <i class="fas fa-home mr-2"></i>Home
+                    </a>
+                    
+                    <!-- Tools Dropdown -->
+                    <div class="relative group">
+                        <button class="px-4 py-2 text-gray-700 hover:text-indigo-600 hover:bg-gray-50 rounded-lg transition flex items-center">
+                            <i class="fas fa-th mr-2"></i>Tools
+                            <i class="fas fa-chevron-down ml-2 text-xs"></i>
+                        </button>
+                        
+                        <!-- Dropdown Menu -->
+                        <div class="absolute left-0 mt-2 w-64 bg-white rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                            <div class="py-2">
+                                <a href="/scraper.html" class="flex items-center px-4 py-3 text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 transition">
+                                    <i class="fas fa-search text-indigo-600 w-6"></i>
+                                    <div class="ml-3">
+                                        <div class="font-semibold">Website Scraper</div>
+                                        <div class="text-xs text-gray-500">SEO & Metadata Analysis</div>
+                                    </div>
+                                </a>
+                                <a href="/amazon.html" class="flex items-center px-4 py-3 text-gray-700 hover:bg-orange-50 hover:text-orange-600 transition">
+                                    <i class="fab fa-amazon text-orange-500 w-6"></i>
+                                    <div class="ml-3">
+                                        <div class="font-semibold">Price Checker</div>
+                                        <div class="text-xs text-gray-500">Amazon Product Details</div>
+                                    </div>
+                                </a>
+                                <a href="/reviews.html" class="flex items-center px-4 py-3 text-gray-700 hover:bg-purple-50 hover:text-purple-600 transition">
+                                    <i class="fas fa-comment-dots text-purple-600 w-6"></i>
+                                    <div class="ml-3">
+                                        <div class="font-semibold">Reviews Scraper</div>
+                                        <div class="text-xs text-gray-500">Amazon Customer Reviews</div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobileMenuBtn" class="md:hidden text-gray-700 hover:text-indigo-600">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+
+            <!-- Mobile Navigation -->
+            <div id="mobileMenu" class="hidden md:hidden pb-4">
+                <a href="/" class="block px-4 py-2 text-indigo-600 bg-indigo-50 rounded-lg font-semibold">
+                    <i class="fas fa-home mr-2"></i>Home
+                </a>
+                <div class="mt-2 border-t pt-2">
+                    <div class="px-4 py-2 text-xs font-semibold text-gray-500 uppercase">Tools</div>
+                    <a href="/scraper.html" class="block px-4 py-2 text-gray-700 hover:bg-indigo-50 rounded-lg transition">
+                        <i class="fas fa-search text-indigo-600 mr-2"></i>Website Scraper
+                    </a>
+                    <a href="/amazon.html" class="block px-4 py-2 text-gray-700 hover:bg-orange-50 rounded-lg transition">
+                        <i class="fab fa-amazon text-orange-500 mr-2"></i>Price Checker
+                    </a>
+                    <a href="/reviews.html" class="block px-4 py-2 text-gray-700 hover:bg-purple-50 rounded-lg transition">
+                        <i class="fas fa-comment-dots text-purple-600 mr-2"></i>Reviews Scraper
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mx-auto px-4 py-8 max-w-6xl">
+        <!-- Header -->
+        <div class="text-center mb-12">
+            <h1 class="text-5xl font-bold text-gray-800 mb-3">
+                <i class="fas fa-tools text-indigo-600"></i> Scraping Tools
+            </h1>
+            <p class="text-xl text-gray-600">Powered by Nodemaven Browser</p>
+            <p class="text-sm text-gray-500 mt-2">Web scraping and analysis tools for developers and marketers</p>
+        </div>
+
+        <!-- Tools Grid -->
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            <!-- Website Scraper Tool -->
+            <a href="/scraper.html" class="group">
+                <div class="bg-white rounded-2xl shadow-lg p-8 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-2 border-transparent hover:border-indigo-500">
+                    <div class="text-center">
+                        <div class="bg-indigo-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-indigo-600 transition-colors duration-300">
+                            <i class="fas fa-search text-4xl text-indigo-600 group-hover:text-white transition-colors duration-300"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-gray-800 mb-3">Website Scraper</h2>
+                        <p class="text-gray-600 mb-4">Extract metadata, analyze SEO, and view schema markup from any website</p>
+                        <div class="space-y-2 text-sm text-gray-500">
+                            <div class="flex items-center justify-center">
+                                <i class="fas fa-check text-green-500 mr-2"></i>
+                                <span>SEO Analysis</span>
+                            </div>
+                            <div class="flex items-center justify-center">
+                                <i class="fas fa-check text-green-500 mr-2"></i>
+                                <span>Metadata Extraction</span>
+                            </div>
+                            <div class="flex items-center justify-center">
+                                <i class="fas fa-check text-green-500 mr-2"></i>
+                                <span>Schema Markup</span>
+                            </div>
+                        </div>
+                        <div class="mt-6">
+                            <span class="inline-block bg-indigo-600 text-white px-6 py-2 rounded-lg font-semibold group-hover:bg-indigo-700 transition-colors">
+                                Launch Tool <i class="fas fa-arrow-right ml-2"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Amazon Price Checker Tool -->
+            <a href="/amazon.html" class="group">
+                <div class="bg-white rounded-2xl shadow-lg p-8 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-2 border-transparent hover:border-orange-500">
+                    <div class="text-center">
+                        <div class="bg-orange-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-orange-500 transition-colors duration-300">
+                            <i class="fab fa-amazon text-4xl text-orange-500 group-hover:text-white transition-colors duration-300"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-gray-800 mb-3">Amazon Price Checker</h2>
+                        <p class="text-gray-600 mb-4">Track product prices, ratings, and availability from Amazon</p>
+                        <div class="space-y-2 text-sm text-gray-500">
+                            <div class="flex items-center justify-center">
+                                <i class="fas fa-check text-green-500 mr-2"></i>
+                                <span>Real-time Prices</span>
+                            </div>
+                            <div class="flex items-center justify-center">
+                                <i class="fas fa-check text-green-500 mr-2"></i>
+                                <span>Product Details</span>
+                            </div>
+                            <div class="flex items-center justify-center">
+                                <i class="fas fa-check text-green-500 mr-2"></i>
+                                <span>Ratings & Reviews</span>
+                            </div>
+                        </div>
+                        <div class="mt-6">
+                            <span class="inline-block bg-orange-500 text-white px-6 py-2 rounded-lg font-semibold group-hover:bg-orange-600 transition-colors">
+                                Launch Tool <i class="fas fa-arrow-right ml-2"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Amazon Reviews Scraper Tool -->
+            <a href="/reviews.html" class="group">
+                <div class="bg-white rounded-2xl shadow-lg p-8 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-2 border-transparent hover:border-purple-500">
+                    <div class="text-center">
+                        <div class="bg-purple-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-purple-600 transition-colors duration-300">
+                            <i class="fas fa-comment-dots text-4xl text-purple-600 group-hover:text-white transition-colors duration-300"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-gray-800 mb-3">Amazon Reviews Scraper</h2>
+                        <p class="text-gray-600 mb-4">Extract and analyze customer reviews with filtering options</p>
+                        <div class="space-y-2 text-sm text-gray-500">
+                            <div class="flex items-center justify-center">
+                                <i class="fas fa-check text-green-500 mr-2"></i>
+                                <span>Extract All Reviews</span>
+                            </div>
+                            <div class="flex items-center justify-center">
+                                <i class="fas fa-check text-green-500 mr-2"></i>
+                                <span>Filter by Rating</span>
+                            </div>
+                            <div class="flex items-center justify-center">
+                                <i class="fas fa-check text-green-500 mr-2"></i>
+                                <span>Export to JSON</span>
+                            </div>
+                        </div>
+                        <div class="mt-6">
+                            <span class="inline-block bg-purple-600 text-white px-6 py-2 rounded-lg font-semibold group-hover:bg-purple-700 transition-colors">
+                                Launch Tool <i class="fas fa-arrow-right ml-2"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Footer -->
+        <div class="text-center mt-16 text-gray-500 text-sm">
+            <p>Built with <i class="fas fa-heart text-red-500"></i> using Nodemaven Browser & Playwright</p>
+        </div>
+    </div>
+
+    <script>
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        
+        if (mobileMenuBtn && mobileMenu) {
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+        }
+    </script>
+</body>
+</html>

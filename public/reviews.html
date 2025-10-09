@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amazon Reviews Scraper - Nodemaven</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gradient-to-br from-purple-50 to-pink-100 min-h-screen">
+    <!-- Navigation Header -->
+    <nav class="bg-white shadow-md mb-8">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-between py-4">
+                <!-- Logo/Brand -->
+                <a href="/" class="flex items-center space-x-2 text-xl font-bold text-gray-800 hover:text-indigo-600 transition">
+                    <i class="fas fa-tools text-indigo-600"></i>
+                    <span>Scraping Tools</span>
+                </a>
+
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex items-center space-x-1">
+                    <a href="/" class="px-4 py-2 text-gray-700 hover:text-indigo-600 hover:bg-gray-50 rounded-lg transition">
+                        <i class="fas fa-home mr-2"></i>Home
+                    </a>
+                    
+                    <!-- Tools Dropdown -->
+                    <div class="relative group">
+                        <button class="px-4 py-2 text-gray-700 hover:text-indigo-600 hover:bg-gray-50 rounded-lg transition flex items-center">
+                            <i class="fas fa-th mr-2"></i>Tools
+                            <i class="fas fa-chevron-down ml-2 text-xs"></i>
+                        </button>
+                        
+                        <!-- Dropdown Menu -->
+                        <div class="absolute left-0 mt-2 w-64 bg-white rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                            <div class="py-2">
+                                <a href="/scraper.html" class="flex items-center px-4 py-3 text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 transition">
+                                    <i class="fas fa-search text-indigo-600 w-6"></i>
+                                    <div class="ml-3">
+                                        <div class="font-semibold">Website Scraper</div>
+                                        <div class="text-xs text-gray-500">SEO & Metadata Analysis</div>
+                                    </div>
+                                </a>
+                                <a href="/amazon.html" class="flex items-center px-4 py-3 text-gray-700 hover:bg-orange-50 hover:text-orange-600 transition">
+                                    <i class="fab fa-amazon text-orange-500 w-6"></i>
+                                    <div class="ml-3">
+                                        <div class="font-semibold">Price Checker</div>
+                                        <div class="text-xs text-gray-500">Amazon Product Details</div>
+                                    </div>
+                                </a>
+                                <a href="/reviews.html" class="flex items-center px-4 py-3 text-gray-700 bg-purple-50 border-l-4 border-purple-600">
+                                    <i class="fas fa-comment-dots text-purple-600 w-6"></i>
+                                    <div class="ml-3">
+                                        <div class="font-semibold text-purple-600">Reviews Scraper</div>
+                                        <div class="text-xs text-gray-500">Amazon Customer Reviews</div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobileMenuBtn" class="md:hidden text-gray-700 hover:text-indigo-600">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+
+            <!-- Mobile Navigation -->
+            <div id="mobileMenu" class="hidden md:hidden pb-4">
+                <a href="/" class="block px-4 py-2 text-gray-700 hover:bg-gray-50 rounded-lg transition">
+                    <i class="fas fa-home mr-2"></i>Home
+                </a>
+                <div class="mt-2 border-t pt-2">
+                    <div class="px-4 py-2 text-xs font-semibold text-gray-500 uppercase">Tools</div>
+                    <a href="/scraper.html" class="block px-4 py-2 text-gray-700 hover:bg-indigo-50 rounded-lg transition">
+                        <i class="fas fa-search text-indigo-600 mr-2"></i>Website Scraper
+                    </a>
+                    <a href="/amazon.html" class="block px-4 py-2 text-gray-700 hover:bg-orange-50 rounded-lg transition">
+                        <i class="fab fa-amazon text-orange-500 mr-2"></i>Price Checker
+                    </a>
+                    <a href="/reviews.html" class="block px-4 py-2 text-purple-600 bg-purple-50 rounded-lg font-semibold">
+                        <i class="fas fa-comment-dots mr-2"></i>Reviews Scraper
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mx-auto px-4 py-8 max-w-6xl">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-gray-800 mb-2">
+                <i class="fas fa-comment-dots text-purple-600"></i> Amazon Reviews Scraper
+            </h1>
+            <p class="text-gray-600">Extract and analyze top customer reviews from Amazon products</p>
+            <p class="text-sm text-gray-500 mt-1">Fetches the top 5 most helpful reviews</p>
+        </div>
+
+        <!-- Input Form -->
+        <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+            <div class="space-y-4">
+                <!-- URL Input -->
+                <div>
+                    <label for="reviewUrl" class="block text-sm font-medium text-gray-700 mb-2">
+                        <i class="fas fa-link text-purple-600"></i> Amazon Product URL
+                    </label>
+                    <input 
+                        type="url" 
+                        id="reviewUrl" 
+                        placeholder="Paste Amazon product URL (e.g., https://www.amazon.com/dp/...)"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                    >
+                    <p class="text-xs text-gray-500 mt-1">We'll extract the top 5 customer reviews from the product page</p>
+                </div>
+
+                <!-- Submit Button -->
+                <button 
+                    id="scrapeBtn"
+                    class="w-full px-6 py-3 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition duration-200 disabled:bg-gray-400 disabled:cursor-not-allowed"
+                >
+                    <i class="fas fa-search"></i> Scrape Reviews
+                </button>
+            </div>
+        </div>
+
+        <!-- Loading Indicator -->
+        <div id="loading" class="hidden text-center py-8">
+            <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600"></div>
+            <p class="mt-4 text-gray-600">Fetching reviews...</p>
+        </div>
+
+        <!-- Error Message -->
+        <div id="error" class="hidden bg-red-100 border border-red-400 text-red-700 px-6 py-4 rounded-lg mb-6">
+            <div class="flex items-start">
+                <i class="fas fa-exclamation-circle mt-1 mr-3"></i>
+                <div>
+                    <strong class="font-bold">Error!</strong>
+                    <p id="errorMessage" class="block sm:inline"></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results -->
+        <div id="results" class="hidden">
+            <!-- Summary Card -->
+            <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-2xl font-bold text-gray-800">
+                        <i class="fas fa-chart-bar text-purple-600 mr-2"></i> Reviews Summary
+                    </h2>
+                    <button 
+                        id="downloadJson"
+                        class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition duration-200 text-sm"
+                    >
+                        <i class="fas fa-download mr-2"></i> Download JSON
+                    </button>
+                </div>
+                
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="bg-purple-50 rounded-lg p-4 text-center">
+                        <div class="text-3xl font-bold text-purple-600" id="totalReviews">0</div>
+                        <div class="text-sm text-gray-600 mt-1">Total Reviews</div>
+                    </div>
+                    <div class="bg-green-50 rounded-lg p-4 text-center">
+                        <div class="text-3xl font-bold text-green-600" id="avgRating">0</div>
+                        <div class="text-sm text-gray-600 mt-1">Average Rating</div>
+                    </div>
+                    <div class="bg-blue-50 rounded-lg p-4 text-center">
+                        <div class="text-3xl font-bold text-blue-600" id="fiveStars">0</div>
+                        <div class="text-sm text-gray-600 mt-1">5-Star Reviews</div>
+                    </div>
+                    <div class="bg-red-50 rounded-lg p-4 text-center">
+                        <div class="text-3xl font-bold text-red-600" id="oneStars">0</div>
+                        <div class="text-sm text-gray-600 mt-1">1-Star Reviews</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filter Controls -->
+            <div class="bg-white rounded-lg shadow-lg p-4 mb-6">
+                <div class="flex flex-wrap items-center gap-4">
+                    <label class="text-sm font-medium text-gray-700">
+                        <i class="fas fa-filter text-purple-600 mr-2"></i> Filter by Rating:
+                    </label>
+                    <button class="filter-btn px-4 py-2 rounded-lg bg-purple-600 text-white text-sm" data-rating="all">
+                        All Reviews
+                    </button>
+                    <button class="filter-btn px-4 py-2 rounded-lg bg-gray-200 text-gray-700 text-sm" data-rating="5">
+                        ⭐⭐⭐⭐⭐
+                    </button>
+                    <button class="filter-btn px-4 py-2 rounded-lg bg-gray-200 text-gray-700 text-sm" data-rating="4">
+                        ⭐⭐⭐⭐
+                    </button>
+                    <button class="filter-btn px-4 py-2 rounded-lg bg-gray-200 text-gray-700 text-sm" data-rating="3">
+                        ⭐⭐⭐
+                    </button>
+                    <button class="filter-btn px-4 py-2 rounded-lg bg-gray-200 text-gray-700 text-sm" data-rating="2">
+                        ⭐⭐
+                    </button>
+                    <button class="filter-btn px-4 py-2 rounded-lg bg-gray-200 text-gray-700 text-sm" data-rating="1">
+                        ⭐
+                    </button>
+                </div>
+            </div>
+
+            <!-- Reviews List -->
+            <div id="reviewsList" class="space-y-4">
+                <!-- Reviews will be inserted here -->
+            </div>
+
+            <!-- No Reviews Message -->
+            <div id="noReviews" class="hidden text-center py-8 text-gray-500">
+                <i class="fas fa-inbox text-4xl mb-2"></i>
+                <p>No reviews found for this filter</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let allReviews = [];
+        let currentFilter = 'all';
+
+        const reviewUrl = document.getElementById('reviewUrl');
+        const scrapeBtn = document.getElementById('scrapeBtn');
+        const loading = document.getElementById('loading');
+        const error = document.getElementById('error');
+        const errorMessage = document.getElementById('errorMessage');
+        const results = document.getElementById('results');
+        const reviewsList = document.getElementById('reviewsList');
+        const downloadJson = document.getElementById('downloadJson');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+
+        // Add enter key support
+        reviewUrl.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                scrapeBtn.click();
+            }
+        });
+
+        scrapeBtn.addEventListener('click', async () => {
+            const url = reviewUrl.value.trim();
+
+            if (!url) {
+                showError('Please enter an Amazon product URL');
+                return;
+            }
+
+            // Validate URL
+            try {
+                const urlObj = new URL(url);
+                if (!urlObj.hostname.includes('amazon')) {
+                    showError('Please enter a valid Amazon product URL');
+                    return;
+                }
+            } catch (e) {
+                showError('Please enter a valid URL');
+                return;
+            }
+
+            // Reset UI
+            hideError();
+            hideResults();
+            showLoading();
+            scrapeBtn.disabled = true;
+
+            try {
+                const response = await fetch('/amazon/reviews', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ url }),
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    allReviews = data.reviews;
+                    displayResults(data);
+                } else {
+                    showError(data.error || 'Failed to fetch reviews');
+                }
+            } catch (err) {
+                showError('Network error. Please try again.');
+                console.error(err);
+            } finally {
+                hideLoading();
+                scrapeBtn.disabled = false;
+            }
+        });
+
+        // Filter functionality
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Update active button
+                filterBtns.forEach(b => {
+                    b.classList.remove('bg-purple-600', 'text-white');
+                    b.classList.add('bg-gray-200', 'text-gray-700');
+                });
+                btn.classList.remove('bg-gray-200', 'text-gray-700');
+                btn.classList.add('bg-purple-600', 'text-white');
+
+                // Filter reviews
+                currentFilter = btn.dataset.rating;
+                displayReviews(filterReviews(allReviews, currentFilter));
+            });
+        });
+
+        // Download JSON
+        downloadJson.addEventListener('click', () => {
+            const dataStr = JSON.stringify(allReviews, null, 2);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'amazon-reviews.json';
+            link.click();
+            URL.revokeObjectURL(url);
+        });
+
+        function showLoading() {
+            loading.classList.remove('hidden');
+        }
+
+        function hideLoading() {
+            loading.classList.add('hidden');
+        }
+
+        function showError(message) {
+            errorMessage.textContent = message;
+            error.classList.remove('hidden');
+        }
+
+        function hideError() {
+            error.classList.add('hidden');
+        }
+
+        function hideResults() {
+            results.classList.add('hidden');
+        }
+
+        function filterReviews(reviews, rating) {
+            if (rating === 'all') return reviews;
+            return reviews.filter(review => review.rating === parseInt(rating));
+        }
+
+        function displayResults(data) {
+            // Calculate statistics
+            const totalReviews = data.reviews.length;
+            const avgRating = (data.reviews.reduce((sum, r) => sum + r.rating, 0) / totalReviews).toFixed(1);
+            const fiveStars = data.reviews.filter(r => r.rating === 5).length;
+            const oneStars = data.reviews.filter(r => r.rating === 1).length;
+
+            // Update summary
+            document.getElementById('totalReviews').textContent = totalReviews;
+            document.getElementById('avgRating').textContent = avgRating;
+            document.getElementById('fiveStars').textContent = fiveStars;
+            document.getElementById('oneStars').textContent = oneStars;
+
+            // Display reviews
+            displayReviews(data.reviews);
+
+            // Show results
+            results.classList.remove('hidden');
+            results.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function displayReviews(reviews) {
+            reviewsList.innerHTML = '';
+            const noReviews = document.getElementById('noReviews');
+
+            if (reviews.length === 0) {
+                noReviews.classList.remove('hidden');
+                return;
+            }
+
+            noReviews.classList.add('hidden');
+
+            reviews.forEach((review, index) => {
+                const reviewCard = document.createElement('div');
+                reviewCard.className = 'bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition duration-200';
+                
+                // Generate stars
+                const stars = '⭐'.repeat(review.rating) + '☆'.repeat(5 - review.rating);
+                
+                // Verified badge
+                const verifiedBadge = review.verified 
+                    ? '<span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 ml-2"><i class="fas fa-check-circle mr-1"></i> Verified Purchase</span>'
+                    : '';
+
+                reviewCard.innerHTML = `
+                    <div class="flex items-start justify-between mb-3">
+                        <div class="flex-1">
+                            <div class="flex items-center mb-2">
+                                <span class="text-2xl mr-2">${stars}</span>
+                                <span class="font-semibold text-gray-800">${review.rating}.0</span>
+                                ${verifiedBadge}
+                            </div>
+                            <h3 class="text-lg font-bold text-gray-800 mb-1">${review.title || 'No title'}</h3>
+                            <div class="text-sm text-gray-600 mb-2">
+                                <i class="fas fa-user-circle mr-1"></i> ${review.author || 'Anonymous'}
+                                ${review.date ? `<span class="mx-2">•</span><i class="fas fa-calendar mr-1"></i> ${review.date}` : ''}
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 leading-relaxed">${review.text || 'No review text'}</p>
+                    ${review.helpful ? `<div class="mt-3 text-sm text-gray-500"><i class="fas fa-thumbs-up mr-1"></i> ${review.helpful} people found this helpful</div>` : ''}
+                `;
+                
+                reviewsList.appendChild(reviewCard);
+            });
+        }
+
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        
+        if (mobileMenuBtn && mobileMenu) {
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+        }
+    </script>
+</body>
+</html>

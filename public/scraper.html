@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Scraper - Nodemaven</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
+    <!-- Navigation Header -->
+    <nav class="bg-white shadow-md mb-8">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-between py-4">
+                <!-- Logo/Brand -->
+                <a href="/" class="flex items-center space-x-2 text-xl font-bold text-gray-800 hover:text-indigo-600 transition">
+                    <i class="fas fa-tools text-indigo-600"></i>
+                    <span>Scraping Tools</span>
+                </a>
+
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex items-center space-x-1">
+                    <a href="/" class="px-4 py-2 text-gray-700 hover:text-indigo-600 hover:bg-gray-50 rounded-lg transition">
+                        <i class="fas fa-home mr-2"></i>Home
+                    </a>
+                    
+                    <!-- Tools Dropdown -->
+                    <div class="relative group">
+                        <button class="px-4 py-2 text-gray-700 hover:text-indigo-600 hover:bg-gray-50 rounded-lg transition flex items-center">
+                            <i class="fas fa-th mr-2"></i>Tools
+                            <i class="fas fa-chevron-down ml-2 text-xs"></i>
+                        </button>
+                        
+                        <!-- Dropdown Menu -->
+                        <div class="absolute left-0 mt-2 w-64 bg-white rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                            <div class="py-2">
+                                <a href="/scraper.html" class="flex items-center px-4 py-3 text-gray-700 bg-indigo-50 border-l-4 border-indigo-600">
+                                    <i class="fas fa-search text-indigo-600 w-6"></i>
+                                    <div class="ml-3">
+                                        <div class="font-semibold text-indigo-600">Website Scraper</div>
+                                        <div class="text-xs text-gray-500">SEO & Metadata Analysis</div>
+                                    </div>
+                                </a>
+                                <a href="/amazon.html" class="flex items-center px-4 py-3 text-gray-700 hover:bg-orange-50 hover:text-orange-600 transition">
+                                    <i class="fab fa-amazon text-orange-500 w-6"></i>
+                                    <div class="ml-3">
+                                        <div class="font-semibold">Price Checker</div>
+                                        <div class="text-xs text-gray-500">Amazon Product Details</div>
+                                    </div>
+                                </a>
+                                <a href="/reviews.html" class="flex items-center px-4 py-3 text-gray-700 hover:bg-purple-50 hover:text-purple-600 transition">
+                                    <i class="fas fa-comment-dots text-purple-600 w-6"></i>
+                                    <div class="ml-3">
+                                        <div class="font-semibold">Reviews Scraper</div>
+                                        <div class="text-xs text-gray-500">Amazon Customer Reviews</div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobileMenuBtn" class="md:hidden text-gray-700 hover:text-indigo-600">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+
+            <!-- Mobile Navigation -->
+            <div id="mobileMenu" class="hidden md:hidden pb-4">
+                <a href="/" class="block px-4 py-2 text-gray-700 hover:bg-gray-50 rounded-lg transition">
+                    <i class="fas fa-home mr-2"></i>Home
+                </a>
+                <div class="mt-2 border-t pt-2">
+                    <div class="px-4 py-2 text-xs font-semibold text-gray-500 uppercase">Tools</div>
+                    <a href="/scraper.html" class="block px-4 py-2 text-indigo-600 bg-indigo-50 rounded-lg font-semibold">
+                        <i class="fas fa-search mr-2"></i>Website Scraper
+                    </a>
+                    <a href="/amazon.html" class="block px-4 py-2 text-gray-700 hover:bg-orange-50 rounded-lg transition">
+                        <i class="fab fa-amazon text-orange-500 mr-2"></i>Price Checker
+                    </a>
+                    <a href="/reviews.html" class="block px-4 py-2 text-gray-700 hover:bg-purple-50 rounded-lg transition">
+                        <i class="fas fa-comment-dots text-purple-600 mr-2"></i>Reviews Scraper
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mx-auto px-4 py-8 max-w-4xl">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-gray-800 mb-2">
+                <i class="fas fa-search text-indigo-600"></i> Website Scraper with SEO Analysis
+            </h1>
+            <p class="text-gray-600">Powered by Nodemaven Browser</p>
+            <p class="text-gray-400">Analyze your website's SEO performance effortlessly.</p>
+        </div>
+
+        <!-- Input Form -->
+        <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+            <div class="space-y-4">
+                <!-- URL Input -->
+                <div>
+                    <label for="urlInput" class="block text-sm font-medium text-gray-700 mb-2">
+                        <i class="fas fa-link text-indigo-600"></i> Website URL
+                    </label>
+                    <input 
+                        type="url" 
+                        id="urlInput" 
+                        placeholder="Enter website URL (e.g., https://example.com)"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    >
+                </div>
+
+                <!-- Keyword Input -->
+                <div>
+                    <label for="keywordInput" class="block text-sm font-medium text-gray-700 mb-2">
+                        <i class="fas fa-key text-indigo-600"></i> Target Keyword (Optional - for SEO Analysis)
+                    </label>
+                    <input 
+                        type="text" 
+                        id="keywordInput" 
+                        placeholder="Enter target keyword (e.g., SEO tools, web scraping)"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    >
+                    <p class="text-xs text-gray-500 mt-1">Enter a keyword to analyze SEO optimization</p>
+                </div>
+
+                <!-- Submit Button -->
+                <button 
+                    id="scrapeBtn"
+                    class="w-full px-6 py-3 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition duration-200 disabled:bg-gray-400 disabled:cursor-not-allowed"
+                >
+                    <i class="fas fa-globe"></i> Analyze Website
+                </button>
+            </div>
+        </div>
+
+        <!-- Loading Indicator -->
+        <div id="loading" class="hidden text-center py-8">
+            <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+            <p class="mt-4 text-gray-600">Scraping website...</p>
+        </div>
+
+        <!-- Error Message -->
+        <div id="error" class="hidden bg-red-100 border border-red-400 text-red-700 px-6 py-4 rounded-lg mb-6">
+            <div class="flex items-start">
+                <i class="fas fa-exclamation-circle mt-1 mr-3"></i>
+                <div>
+                    <strong class="font-bold">Error!</strong>
+                    <p id="errorMessage" class="block sm:inline"></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results -->
+        <div id="results" class="hidden space-y-4">
+            <!-- SEO Analysis Card (if keyword provided) -->
+            <div id="seoAnalysis" class="hidden bg-gradient-to-br from-indigo-50 to-purple-50 rounded-lg shadow-lg p-6 border-2 border-indigo-200">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center">
+                        <i class="fas fa-chart-line text-indigo-600 mr-3 text-2xl"></i>
+                        <h2 class="text-2xl font-bold text-gray-800">SEO Analysis</h2>
+                    </div>
+                    <div class="text-right">
+                        <div id="seoScore" class="text-3xl font-bold text-indigo-600">0%</div>
+                        <div class="text-sm text-gray-600">Optimization Score</div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <span class="inline-block bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-sm font-medium">
+                        <i class="fas fa-key"></i> Keyword: <span id="analyzedKeyword" class="font-bold"></span>
+                    </span>
+                </div>
+                <div class="space-y-2" id="seoChecks">
+                    <!-- SEO checks will be inserted here -->
+                </div>
+            </div>
+
+            <!-- Title -->
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <div class="flex items-center mb-3">
+                    <i class="fas fa-heading text-indigo-600 mr-3 text-xl"></i>
+                    <h2 class="text-xl font-semibold text-gray-800">Page Title</h2>
+                </div>
+                <p id="title" class="text-gray-700 text-lg"></p>
+            </div>
+
+            <!-- Meta Title -->
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <div class="flex items-center mb-3">
+                    <i class="fas fa-tag text-indigo-600 mr-3 text-xl"></i>
+                    <h2 class="text-xl font-semibold text-gray-800">Meta Title</h2>
+                </div>
+                <p id="metaTitle" class="text-gray-700"></p>
+            </div>
+
+            <!-- Meta Description -->
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <div class="flex items-center mb-3">
+                    <i class="fas fa-align-left text-indigo-600 mr-3 text-xl"></i>
+                    <h2 class="text-xl font-semibold text-gray-800">Meta Description</h2>
+                </div>
+                <p id="metaDescription" class="text-gray-700"></p>
+            </div>
+
+            <!-- Favicon -->
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <div class="flex items-center mb-3">
+                    <i class="fas fa-image text-indigo-600 mr-3 text-xl"></i>
+                    <h2 class="text-xl font-semibold text-gray-800">Favicon</h2>
+                </div>
+                <div class="flex items-center gap-4">
+                    <img id="faviconImg" src="" alt="Favicon" class="w-16 h-16 object-contain border border-gray-200 rounded-lg p-2">
+                    <div class="flex-1">
+                        <p id="faviconUrl" class="text-sm text-gray-600 break-all"></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Schema Data -->
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <div class="flex items-center mb-3">
+                    <i class="fas fa-code text-indigo-600 mr-3 text-xl"></i>
+                    <h2 class="text-xl font-semibold text-gray-800">Schema Data (JSON-LD)</h2>
+                </div>
+                <div id="schemaContainer">
+                    <p id="noSchema" class="text-gray-500 italic">No schema data found</p>
+                    <div id="schemaData" class="hidden">
+                        <pre class="bg-gray-50 p-4 rounded-lg overflow-x-auto text-sm border border-gray-200"><code id="schemaCode" class="text-gray-800"></code></pre>
+                        <button 
+                            id="copySchemaBtn"
+                            class="mt-3 px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition duration-200 text-sm"
+                        >
+                            <i class="fas fa-copy"></i> Copy Schema
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const urlInput = document.getElementById('urlInput');
+        const keywordInput = document.getElementById('keywordInput');
+        const scrapeBtn = document.getElementById('scrapeBtn');
+        const loading = document.getElementById('loading');
+        const error = document.getElementById('error');
+        const errorMessage = document.getElementById('errorMessage');
+        const results = document.getElementById('results');
+
+        // Add enter key support
+        urlInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                scrapeBtn.click();
+            }
+        });
+
+        keywordInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                scrapeBtn.click();
+            }
+        });
+
+        scrapeBtn.addEventListener('click', async () => {
+            const url = urlInput.value.trim();
+            const keyword = keywordInput.value.trim();
+
+            if (!url) {
+                showError('Please enter a URL');
+                return;
+            }
+
+            // Basic URL validation
+            try {
+                new URL(url);
+            } catch (e) {
+                showError('Please enter a valid URL (e.g., https://example.com)');
+                return;
+            }
+
+            // Reset UI
+            hideError();
+            hideResults();
+            showLoading();
+            scrapeBtn.disabled = true;
+
+            try {
+                const response = await fetch('/scrape', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ url, keyword }),
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    displayResults(data.data, data.seoAnalysis);
+                } else {
+                    showError(data.error || 'Failed to scrape website');
+                }
+            } catch (err) {
+                showError('Network error. Please try again.');
+                console.error(err);
+            } finally {
+                hideLoading();
+                scrapeBtn.disabled = false;
+            }
+        });
+
+        function showLoading() {
+            loading.classList.remove('hidden');
+        }
+
+        function hideLoading() {
+            loading.classList.add('hidden');
+        }
+
+        function showError(message) {
+            errorMessage.textContent = message;
+            error.classList.remove('hidden');
+        }
+
+        function hideError() {
+            error.classList.add('hidden');
+        }
+
+        function hideResults() {
+            results.classList.add('hidden');
+        }
+
+        function displayResults(data, seoAnalysis) {
+            // SEO Analysis
+            if (seoAnalysis) {
+                displaySEOAnalysis(seoAnalysis);
+            } else {
+                document.getElementById('seoAnalysis').classList.add('hidden');
+            }
+
+            // Title
+            document.getElementById('title').textContent = data.title || 'No title found';
+
+            // Meta Title
+            document.getElementById('metaTitle').textContent = data.metaTitle || 'No meta title found';
+
+            // Meta Description
+            document.getElementById('metaDescription').textContent = data.metaDescription || 'No meta description found';
+
+            // Favicon
+            const faviconImg = document.getElementById('faviconImg');
+            const faviconUrl = document.getElementById('faviconUrl');
+            
+            if (data.faviconUrl) {
+                faviconImg.src = data.faviconUrl;
+                faviconImg.onerror = () => {
+                    faviconImg.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="gray"%3E%3Cpath d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/%3E%3C/svg%3E';
+                };
+                faviconUrl.textContent = data.faviconUrl;
+            } else {
+                faviconImg.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="gray"%3E%3Cpath d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/%3E%3C/svg%3E';
+                faviconUrl.textContent = 'No favicon found';
+            }
+
+            // Schema Data
+            const noSchema = document.getElementById('noSchema');
+            const schemaData = document.getElementById('schemaData');
+            const schemaCode = document.getElementById('schemaCode');
+
+            if (data.schemaData && data.schemaData.length > 0) {
+                noSchema.classList.add('hidden');
+                schemaData.classList.remove('hidden');
+                schemaCode.textContent = JSON.stringify(data.schemaData, null, 2);
+            } else {
+                noSchema.classList.remove('hidden');
+                schemaData.classList.add('hidden');
+            }
+
+            // Show results
+            results.classList.remove('hidden');
+            results.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function displaySEOAnalysis(analysis) {
+            const seoAnalysisDiv = document.getElementById('seoAnalysis');
+            const seoScore = document.getElementById('seoScore');
+            const analyzedKeyword = document.getElementById('analyzedKeyword');
+            const seoChecks = document.getElementById('seoChecks');
+
+            // Display keyword
+            analyzedKeyword.textContent = analysis.keyword;
+
+            // Display score
+            seoScore.textContent = analysis.score.percentage + '%';
+            
+            // Color code the score
+            if (analysis.score.percentage >= 80) {
+                seoScore.className = 'text-3xl font-bold text-green-600';
+            } else if (analysis.score.percentage >= 60) {
+                seoScore.className = 'text-3xl font-bold text-yellow-600';
+            } else {
+                seoScore.className = 'text-3xl font-bold text-red-600';
+            }
+
+            // Display checks
+            seoChecks.innerHTML = '';
+            Object.entries(analysis.checks).forEach(([key, check]) => {
+                const checkDiv = document.createElement('div');
+                checkDiv.className = `flex items-start p-3 rounded-lg ${check.status ? 'bg-green-50 border border-green-200' : 'bg-red-50 border border-red-200'}`;
+                
+                const icon = check.status 
+                    ? '<i class="fas fa-check-circle text-green-600 mt-0.5"></i>' 
+                    : '<i class="fas fa-times-circle text-red-600 mt-0.5"></i>';
+                
+                checkDiv.innerHTML = `
+                    <div class="mr-3 text-lg">${icon}</div>
+                    <div class="flex-1">
+                        <p class="text-sm font-medium ${check.status ? 'text-green-800' : 'text-red-800'}">${check.message}</p>
+                    </div>
+                `;
+                
+                seoChecks.appendChild(checkDiv);
+            });
+
+            seoAnalysisDiv.classList.remove('hidden');
+        }
+
+        // Copy schema functionality
+        document.getElementById('copySchemaBtn').addEventListener('click', () => {
+            const schemaCode = document.getElementById('schemaCode').textContent;
+            navigator.clipboard.writeText(schemaCode).then(() => {
+                const btn = document.getElementById('copySchemaBtn');
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                btn.classList.add('bg-green-200', 'text-green-700');
+                btn.classList.remove('bg-gray-200', 'text-gray-700');
+                
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.classList.remove('bg-green-200', 'text-green-700');
+                    btn.classList.add('bg-gray-200', 'text-gray-700');
+                }, 2000);
+            });
+        });
+
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        
+        if (mobileMenuBtn && mobileMenu) {
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+        }
+    </script>
+</body>
+</html>
