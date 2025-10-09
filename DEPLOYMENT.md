@@ -92,7 +92,7 @@ sudo mkdir -p /var/www
 cd /var/www
 
 # Clone your repository (if you have one)
-sudo git clone https://github.com/yourusername/nodemaven-scrape-browser.git
+sudo git clone https://github.com/vashishthakapoor/nodemaven-scraping-tools.git
 
 # Or create directory manually
 sudo mkdir nodemaven-scrape-browser
