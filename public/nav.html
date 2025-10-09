@@ -4,14 +4,15 @@
         <div class="flex items-center justify-between py-4">
             <!-- Logo/Brand -->
             <a href="/" class="flex items-center space-x-2 text-xl font-bold text-gray-800 hover:text-indigo-600 transition">
-                <i class="fas fa-tools text-indigo-600"></i>
+                <!-- <i class="fas fa-tools text-indigo-600"></i> -->
                 <span>Scraping Tools</span>
             </a>
 
             <!-- Desktop Navigation -->
             <div class="hidden md:flex items-center space-x-1">
                 <a href="/" class="px-4 py-2 text-gray-700 hover:text-indigo-600 hover:bg-gray-50 rounded-lg transition">
-                    <i class="fas fa-home mr-2"></i>Start here
+                    <i class="fas fa-home mr-2"></i>
+                    Start here
                 </a>
                 
                 <!-- Tools Dropdown -->
@@ -76,15 +77,3 @@
         </div>
     </div>
 </nav>
-
-<script>
-    // Mobile menu toggle
-    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-    const mobileMenu = document.getElementById('mobileMenu');
-    
-    if (mobileMenuBtn && mobileMenu) {
-        mobileMenuBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
-    }
-</script>

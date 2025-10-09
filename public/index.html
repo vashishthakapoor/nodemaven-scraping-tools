@@ -8,84 +8,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
-    <!-- Navigation Header -->
-    <nav class="bg-white shadow-md mb-8">
-        <div class="container mx-auto px-4">
-            <div class="flex items-center justify-between py-4">
-                <!-- Logo/Brand -->
-                <a href="/" class="flex items-center space-x-2 text-xl font-bold text-gray-800 hover:text-indigo-600 transition">
-                    <i class="fas fa-tools text-indigo-600"></i>
-                    <span>Scraping Tools</span>
-                </a>
-
-                <!-- Desktop Navigation -->
-                <div class="hidden md:flex items-center space-x-1">
-                    <a href="/" class="px-4 py-2 text-indigo-600 bg-indigo-50 rounded-lg font-semibold">
-                        <i class="fas fa-home mr-2"></i>Home
-                    </a>
-                    
-                    <!-- Tools Dropdown -->
-                    <div class="relative group">
-                        <button class="px-4 py-2 text-gray-700 hover:text-indigo-600 hover:bg-gray-50 rounded-lg transition flex items-center">
-                            <i class="fas fa-th mr-2"></i>Tools
-                            <i class="fas fa-chevron-down ml-2 text-xs"></i>
-                        </button>
-                        
-                        <!-- Dropdown Menu -->
-                        <div class="absolute left-0 mt-2 w-64 bg-white rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                            <div class="py-2">
-                                <a href="/scraper.html" class="flex items-center px-4 py-3 text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 transition">
-                                    <i class="fas fa-search text-indigo-600 w-6"></i>
-                                    <div class="ml-3">
-                                        <div class="font-semibold">Website Scraper</div>
-                                        <div class="text-xs text-gray-500">SEO & Metadata Analysis</div>
-                                    </div>
-                                </a>
-                                <a href="/amazon.html" class="flex items-center px-4 py-3 text-gray-700 hover:bg-orange-50 hover:text-orange-600 transition">
-                                    <i class="fab fa-amazon text-orange-500 w-6"></i>
-                                    <div class="ml-3">
-                                        <div class="font-semibold">Price Checker</div>
-                                        <div class="text-xs text-gray-500">Amazon Product Details</div>
-                                    </div>
-                                </a>
-                                <a href="/reviews.html" class="flex items-center px-4 py-3 text-gray-700 hover:bg-purple-50 hover:text-purple-600 transition">
-                                    <i class="fas fa-comment-dots text-purple-600 w-6"></i>
-                                    <div class="ml-3">
-                                        <div class="font-semibold">Reviews Scraper</div>
-                                        <div class="text-xs text-gray-500">Amazon Customer Reviews</div>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Mobile Menu Button -->
-                <button id="mobileMenuBtn" class="md:hidden text-gray-700 hover:text-indigo-600">
-                    <i class="fas fa-bars text-2xl"></i>
-                </button>
-            </div>
-
-            <!-- Mobile Navigation -->
-            <div id="mobileMenu" class="hidden md:hidden pb-4">
-                <a href="/" class="block px-4 py-2 text-indigo-600 bg-indigo-50 rounded-lg font-semibold">
-                    <i class="fas fa-home mr-2"></i>Home
-                </a>
-                <div class="mt-2 border-t pt-2">
-                    <div class="px-4 py-2 text-xs font-semibold text-gray-500 uppercase">Tools</div>
-                    <a href="/scraper.html" class="block px-4 py-2 text-gray-700 hover:bg-indigo-50 rounded-lg transition">
-                        <i class="fas fa-search text-indigo-600 mr-2"></i>Website Scraper
-                    </a>
-                    <a href="/amazon.html" class="block px-4 py-2 text-gray-700 hover:bg-orange-50 rounded-lg transition">
-                        <i class="fab fa-amazon text-orange-500 mr-2"></i>Price Checker
-                    </a>
-                    <a href="/reviews.html" class="block px-4 py-2 text-gray-700 hover:bg-purple-50 rounded-lg transition">
-                        <i class="fas fa-comment-dots text-purple-600 mr-2"></i>Reviews Scraper
-                    </a>
-                </div>
-            </div>
-        </div>
-    </nav>
+    <!-- Navigation Placeholder -->
+    <div id="nav-placeholder"></div>
 
     <div class="container mx-auto px-4 py-8 max-w-6xl">
         <!-- Header -->
@@ -202,16 +126,7 @@
         </div>
     </div>
 
-    <script>
-        // Mobile menu toggle
-        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-        const mobileMenu = document.getElementById('mobileMenu');
-        
-        if (mobileMenuBtn && mobileMenu) {
-            mobileMenuBtn.addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
-            });
-        }
-    </script>
+    <!-- Load navigation dynamically -->
+    <script src="/nav-loader.js"></script>
 </body>
 </html>
