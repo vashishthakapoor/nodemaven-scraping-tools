@@ -6,7 +6,7 @@ async function scrapeWebsite(url) {
     try {
         console.log("Connecting to the browser...");
         browser = await chromium.connectOverCDP(
-            "wss://vashishthakkapoor_gmail_com-country-any-sid-f865a3ca2aa24-pid-1e6c5be9c2684:7z0kq0vvis@browser.nodemaven.com"
+            "wss://vashishthakkapoor_gmail_com-country-us-pid-53c16f748fe14:d1e518a153184@browser.nodemaven.com"
         );
         console.log("Connected to the browser! Opening a new page...");
 
